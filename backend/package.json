@@ -1,0 +1,27 @@
+{
+  "name": "backend-mean-blog",
+  "version": "1.0.0",
+  "description": "Backend con Node y Express de una Web App Blog",
+  "main": "src/app.js",
+  "scripts": {
+    "start": "nodemon src/app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MarcioMatteucci/mean-blog-web.git"
+  },
+  "keywords": [
+    "MEAN",
+    "Blog",
+    "Backend"
+  ],
+  "author": "Marcio Matteucci",
+  "license": "MIT",
+  "dependencies": {
+    "bcrypt-nodejs": "0.0.3",
+    "body-parser": "^1.17.2",
+    "cors": "^2.8.3",
+    "express": "^4.15.3",
+    "mongoose": "^4.11.1"
+  }
+}
