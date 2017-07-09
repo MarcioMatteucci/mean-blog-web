@@ -65,11 +65,10 @@ module.exports = (router) => {
   /* ============================================================
      Route to check if user's email is available for registration
   ============================================================ */
-  /*
   router.get('/checkEmail/:email', (req, res) => {
     // Check if email was provided in paramaters
     if (!req.params.email) {
-      res.json({ success: false, message: 'E-mail was not provided' }); // Return error
+      res.json({ success: false, message: 'E-mail no fue proveido' }); // Return error
     } else {
       // Search for user's e-mail in database;
       User.findOne({ email: req.params.email }, (err, user) => {
@@ -78,25 +77,22 @@ module.exports = (router) => {
         } else {
           // Check if user's e-mail is taken
           if (user) {
-            res.json({ success: false, message: 'E-mail is already taken' }); // Return as taken e-mail
+            res.json({ success: false, message: 'E-mail ya existe' }); // Return as taken e-mail
           } else {
-            res.json({ success: true, message: 'E-mail is available' }); // Return as available e-mail
+            res.json({ success: true, message: 'E-mail está disponible' }); // Return as available e-mail
           }
         }
       });
     }
   });
-  */
-
   
   /* ===============================================================
      Route to check if user's username is available for registration
   =============================================================== */
-  /*
   router.get('/checkUsername/:username', (req, res) => {
     // Check if username was provided in paramaters
     if (!req.params.username) {
-      res.json({ success: false, message: 'Username was not provided' }); // Return error
+      res.json({ success: false, message: 'Nombre de Usuario no fue proveido' }); // Return error
     } else {
       // Look for username in database
       User.findOne({ username: req.params.username }, (err, user) => {
@@ -106,15 +102,14 @@ module.exports = (router) => {
         } else {
           // Check if user's username was found
           if (user) {
-            res.json({ success: false, message: 'Username is already taken' }); // Return as taken username
+            res.json({ success: false, message: 'Nombre de Usuario ya existe' }); // Return as taken username
           } else {
-            res.json({ success: true, message: 'Username is available' }); // Return as vailable username
+            res.json({ success: true, message: 'Nombre de Usuario esta disponible' }); // Return as vailable username
           }
         }
       });
     }
   });
-  */
 
   return router; // Return router object to main index.js
 }
