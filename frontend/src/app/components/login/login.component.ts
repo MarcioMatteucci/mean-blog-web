@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
+import { AuthGuard } from '../../guards/auth.guards';
 
 @Component({
   selector: 'app-login',
@@ -14,11 +15,13 @@ export class LoginComponent implements OnInit {
   message;
   processing = false;
   form: FormGroup;
+  previousUrl;
 
   constructor(
     private formBuilder: FormBuilder,
     private authService: AuthService,
-    private router: Router
+    private router: Router,
+    private authGuard: AuthGuard
   ) {
     this.createForm();
   }
@@ -49,7 +52,7 @@ export class LoginComponent implements OnInit {
     }
 
     this.authService.login(user).subscribe(data => {
-      if(!data.success){
+      if (!data.success) {
         this.messageClass = 'alert alert-danger';
         this.message = data.message;
         this.processing = false;
@@ -59,7 +62,11 @@ export class LoginComponent implements OnInit {
         this.message = data.message;
         this.authService.storeUserData(data.token, data.user);
         setTimeout(() => {
-          this.router.navigate(['/dashboard']);
+          if (this.previousUrl) {
+            this.router.navigate([this.previousUrl]);
+          } else {
+            this.router.navigate(['/dashboard']);
+          }
         }, 2000);
       }
     });
@@ -67,6 +74,12 @@ export class LoginComponent implements OnInit {
 
 
   ngOnInit() {
+    if (this.authGuard.redirectUrl) {
+      this.messageClass = 'alert alert-danger';
+      this.message = 'Debe estar logeado para ver esta sección';
+      this.previousUrl = this.authGuard.redirectUrl;
+      this.authGuard.redirectUrl = undefined;
+    }
   }
 
 }

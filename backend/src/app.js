@@ -13,7 +13,7 @@ const cors = require('cors'); // CORS is a node.js package for providing a Conne
 
 // Database Connection
 mongoose.Promise = global.Promise;
-mongoose.connect(config.uri, (err) => {
+mongoose.connect(config.uri, { useMongoClient: true }, (err) => {
   if (err) {
     console.log('No se pudo conectar a la BD: ', err);
   } else {

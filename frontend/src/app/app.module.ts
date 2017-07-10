@@ -5,6 +5,9 @@ import { HttpModule } from '@angular/http';
 
 import { AppRoutingModule } from './app-routing.module';
 
+import { AuthGuard } from './guards/auth.guards';
+import { NotAuthGuard } from './guards/notAuth.guards';
+
 import { AppComponent } from './app.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { HomeComponent } from './components/home/home.component';
@@ -33,7 +36,7 @@ import { ProfileComponent } from './components/profile/profile.component';
     ReactiveFormsModule,
     AppRoutingModule,
   ],
-  providers: [AuthService],
+  providers: [AuthService, AuthGuard, NotAuthGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

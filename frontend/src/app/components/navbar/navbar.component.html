@@ -19,7 +19,7 @@
         <li *ngIf="authService.loggedIn()" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}"><a routerLink="/dashboard">Dashboard</a></li>
         <li *ngIf="authService.loggedIn()" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}"><a routerLink="/profile">Perfil</a></li>
         <li><a href="#contact">Blog</a></li>
-        <li [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}"><a routerLink="/login">Iniciar Sesión</a></li>
+        <li *ngIf="!authService.loggedIn()" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}"><a routerLink="/login">Iniciar Sesión</a></li>
         <li *ngIf="authService.loggedIn()"><a href="#" (click)="onLogoutClick()">Cerrar Sesión</a></li>
         <li *ngIf="!authService.loggedIn()" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}"><a routerLink="/register">Registrarse</a></li>
       </ul>
