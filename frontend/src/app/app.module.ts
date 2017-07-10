@@ -31,7 +31,7 @@ import { ProfileComponent } from './components/profile/profile.component';
     BrowserModule,
     HttpModule,
     ReactiveFormsModule,
-    AppRoutingModule
+    AppRoutingModule,
   ],
   providers: [AuthService],
   bootstrap: [AppComponent]
