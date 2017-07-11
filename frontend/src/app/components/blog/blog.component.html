@@ -1,0 +1,85 @@
+<h1 class="page-header">Blog Page</h1>
+
+<!--<div class="row show-hide-message">
+  <div [ngClass]="messageClass">
+    {{ message }}
+  </div>
+</div>-->
+
+<button type="button" name="button" class="btn btn-primary" *ngIf="!newPost" (click)="newBlogForm()">Nuevo Post</button>
+<button [disabled]="loadingBlogs" type="button" name="button" class="btn btn-default" *ngIf="!newPost" (click)="reloadBlogs()"><span class="glyphicon glyphicon-repeat"></span>&nbsp;&nbsp;&nbsp;Recargar</button>
+
+<br>
+<br>
+
+<div *ngIf="!newPost">
+  <div class="panel panel-primary">
+    <div class="panel-heading">
+      <h3 class="panel-title">Titulo Post</h3>
+    </div>
+    <div class="panel-body">
+      Mollit incididunt minim eu laborum do duis nulla dolor eu sunt ipsum quis ullamco. Cillum exercitation reprehenderit laborum
+      amet id non veniam dolore. Dolor officia eu veniam laboris nisi officia eu laborum dolore.
+    </div>
+
+    <!--  Inicio del Footer -->
+    <div class="panel-footer">
+      <strong>Creado por: </strong>cartucho
+      <br>
+      <strong>Fecha: </strong>Junio 13, 2017
+      <br>
+      <div>
+        <strong>Likes: </strong>25
+        <br>
+        <strong>Dislikes: </strong>25
+        <br>
+      </div>
+
+      <!-- Editar/Borrar botones -->
+      <a href=""><button type="button" name="button" class="btn btn-sm btn-info"><span class="glyphicon glyphicon-pencil"></span>&nbsp;&nbsp;Editar</button></a>
+      <a href=""><button type="button" name="button" class="btn btn-sm btn-danger"><span class="glyphicon glyphicon-trash"></span>&nbsp;&nbsp;Borrar</button></a>
+
+      <!-- Boton Likes -->
+      <div class="dropdown">
+        <button type="button" name="button" class="btn btn-sm btn-success">
+          <span class="glyphicon glyphicon-thumbs-up">&nbsp;</span>Likes: 25
+        </button>
+
+        <!-- Lista Likes -->
+        <div class="dropdown-content">
+          <a href="#">gugui3z24</a>
+          <a href="#">jinder</a>
+          <a href="#">patel</a>
+        </div>
+      </div>
+
+      <!-- Boton Dislike -->
+      <div class="dropdown">
+        <button type="button" name="button" class="btn btn-sm btn-warning">
+          <span class="glyphicon glyphicon-thumbs-down">&nbsp;</span>Dislikes: 25
+        </button>
+
+        <!-- Lista Dislikes -->
+        <div class="dropdown-content">
+          <a href="#">gugui3z24</a>
+          <a href="#">jinder</a>
+          <a href="#">patel</a>
+        </div>
+      </div>
+    </div>
+    <!--  Final del Footer -->
+
+    <ul class="list-group">
+      <li class="list-group-item">
+        <button type="button" name="button" class="btn btn-sm btn-primary" (click)="draftComment()">Comentar</button>
+        <br>
+        <!--<form>
+          <textarea name="comment" rows="10" cols="30" class="form-control"></textarea>
+          <button type="button" name="button" class="btn btn-sm btn-primary" (click)="">Enviar Comentario</button>
+          <button type="button" name="button" class="btn btn-sm btn-danger" (click)="">Cancelar</button>
+        </form>-->
+      </li>
+    </ul>
+
+  </div>
+</div>

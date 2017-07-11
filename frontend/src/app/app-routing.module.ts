@@ -8,6 +8,7 @@ import { LoginComponent } from './components/login/login.component';
 import { ProfileComponent } from './components/profile/profile.component';
 import { AuthGuard } from './guards/auth.guards';
 import { NotAuthGuard } from './guards/notAuth.guards';
+import { BlogComponent } from './components/blog/blog.component';
 
 const routes: Routes = [
   {
@@ -33,6 +34,10 @@ const routes: Routes = [
     path: 'profile',
     component: ProfileComponent, // The Login Route
     canActivate: [AuthGuard]
+  },
+  {
+    path: 'blog',
+    component: BlogComponent // The Default Route
   },
   { 
     path: '**',

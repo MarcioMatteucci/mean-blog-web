@@ -24,7 +24,7 @@
         <li *ngIf="form.controls.username.errors?.required && form.controls.username.dirty">Nombre de Usuario es requerido.</li>
         <li *ngIf="form.controls.username.errors?.minlength || form.controls.username.errors?.maxlength && form.controls.username.dirty ">Caracteres mínimos: 3, Caracteres máximos: 15.</li>
         <li *ngIf="form.controls.username.errors?.validateUsername && form.controls.username.dirty && !form.controls.username.errors?.required">Nombre de Usuario no puede contener caracteres especiales.</li>
-        <li *ngIf="usernameMessage && !usernameValid">{{ usernameMessage }}</li>
+        <li *ngIf="usernameMessage && !usernameValid && !form.controls.username.errors?.required">{{ usernameMessage }}</li>
       </ul>
     </div>
   </div>
@@ -43,7 +43,7 @@
         <li *ngIf="form.controls.email.errors?.required && form.controls.email.dirty">E-mail es requerido.</li>
         <li *ngIf="(form.controls.email.errors?.minlength && form.controls.email.dirty || form.controls.email.errors?.maxlength && form.controls.email.dirty ) && form.controls.email.dirty">Caracteres mínimos: 5, Caracteres máximos: 30.</li>
         <li *ngIf="form.controls.email.errors?.validateEmail && form.controls.email.dirty && !form.controls.email.errors?.required">Debe ingresar un E-mail válido.</li>
-        <li *ngIf="emailMessage && !emailValid">{{ emailMessage}}</li>
+        <li *ngIf="emailMessage && !emailValid && !form.controls.email.errors?.required">{{ emailMessage}}</li>
       </ul>
     </div>
   </div>
