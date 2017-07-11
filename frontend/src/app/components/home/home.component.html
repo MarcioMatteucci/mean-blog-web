@@ -2,8 +2,9 @@
   <h1>MEAN Stack Blog</h1>
   <p class="lead">Bienvenido a la Aplicación MEAN Stack Blog by <strong>Marcio Matteucci</strong></p>
   <div>
-    <a routerLink="/register" class="btn btn-primary">Registrarse</a>
-    <a routerLink="/login" class="btn btn-default">Iniciar Sesión</a>
+    <a *ngIf="!authService.loggedIn()" routerLink="/register" class="btn btn-primary">Registrarse</a>
+    <a *ngIf="!authService.loggedIn()" routerLink="/login" class="btn btn-default">Iniciar Sesión</a>
+    <a *ngIf="authService.loggedIn()" routerLink="/blog" class="btn btn-lg btn-primary">Ver Blogs</a>
   </div>
 </div>
 

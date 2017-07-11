@@ -1,85 +1,141 @@
-<h1 class="page-header">Blog Page</h1>
+<h1 class="page-header">Blog</h1>
 
-<!--<div class="row show-hide-message">
+<!-- Custom Success/Error Message -->
+<div class="row show-hide-message" *ngIf="message && newPost">
   <div [ngClass]="messageClass">
     {{ message }}
   </div>
-</div>-->
+</div>
 
-<button type="button" name="button" class="btn btn-primary" *ngIf="!newPost" (click)="newBlogForm()">Nuevo Post</button>
+<!-- New Post Button -->
+<button type="button" name="button" class="btn btn-primary" *ngIf="!newPost" (click)="newBlogForm()"><span class="glyphicon glyphicon-plus"></span>&nbsp;&nbsp;&nbsp;Nuevo Post</button>
+
+<!-- Reload Button -->
 <button [disabled]="loadingBlogs" type="button" name="button" class="btn btn-default" *ngIf="!newPost" (click)="reloadBlogs()"><span class="glyphicon glyphicon-repeat"></span>&nbsp;&nbsp;&nbsp;Recargar</button>
 
+<!-- New Blog Form -->
+<form [formGroup]="form" name="blogForm" (submit)="onBlogSubmit()" *ngIf="newPost">
+  <!-- Title Input -->
+  <div class="form-group">
+    <label for="title">Título:</label>
+    <div [ngClass]="{'has-success': form.controls.title.valid, 'has-error': form.controls.title.dirty && form.controls.title.errors}">
+      <div class="input-group">
+        <span class="input-group-addon" id="start-date"><span class="glyphicon glyphicon-text-size"></span></span>
+        <input type="text" name="title" class="form-control" placeholder="Ingrese el Título del Blog" autocomplete="off" formControlName="title"
+        />
+      </div>
+      <ul class="help-block">
+        <li *ngIf="form.controls.title.dirty && form.controls.title.errors?.required">El Título es requerido.</li>
+        <li *ngIf="(form.controls.title.dirty && form.controls.title.errors?.minlength) || (form.controls.title.dirty && form.controls.title.errors?.maxlength)">Caracteres mínimos: 5, Caracteres máximos: 50.</li>
+        <li *ngIf="form.controls.title.dirty && form.controls.title.errors?.alphaNumericValidation && !form.controls.title.errors?.required">Solo puede contener letras y/o números.</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Body Input -->
+  <div class="form-group">
+    <label for="body">Contenido:</label>
+    <div [ngClass]="{'has-success': form.controls.body.valid, 'has-error': form.controls.body.dirty && form.controls.body.errors}">
+      <textarea name="body" rows="8" cols="80" placeholder="Ingrese el Contenido del Blog" class="form-control" formControlName="body"></textarea>
+      <ul class="help-block">
+        <li *ngIf="form.controls.body.dirty && form.controls.body.errors?.required">El Contenido es requerido.</li>
+        <li *ngIf="(form.controls.body.dirty && form.controls.body.errors?.minlength) || (form.controls.body.dirty && form.controls.body.errors?.maxlength)">Caracteres mínimos: 5, Caracteres máximos: 500.</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Go Back Button -->
+  <button [disabled]="processing" type="button" name="button" (click)="goBack()" class="btn btn-default"><span class="glyphicon glyphicon-chevron-left"></span>&nbsp;&nbsp;&nbsp;Volver</button>
+  <!-- Submit Button -->
+  <button [disabled]="processing || !form.valid" type="submit" name="button" class="btn btn-primary"><span class="glyphicon glyphicon-ok"></span>&nbsp;&nbsp;&nbsp;Enviar</button>
+
+</form>
+<!-- New Blog Form -->
+
 <br>
 <br>
 
+<!-- Panel Start -->
 <div *ngIf="!newPost">
-  <div class="panel panel-primary">
+  <!-- Panel Outer Layer -->
+  <div class="panel panel-primary" *ngFor="let blog of blogPosts">
+
+    <!-- Panel Title -->
     <div class="panel-heading">
-      <h3 class="panel-title">Titulo Post</h3>
+      <h3 class="panel-title">{{ blog.title }}</h3>
     </div>
+
+    <!-- Panel Body -->
     <div class="panel-body">
-      Mollit incididunt minim eu laborum do duis nulla dolor eu sunt ipsum quis ullamco. Cillum exercitation reprehenderit laborum
-      amet id non veniam dolore. Dolor officia eu veniam laboris nisi officia eu laborum dolore.
+      {{ blog.body }}
     </div>
 
-    <!--  Inicio del Footer -->
+    <!-- Panel Footer Start -->
     <div class="panel-footer">
-      <strong>Creado por: </strong>cartucho
-      <br>
-      <strong>Fecha: </strong>Junio 13, 2017
-      <br>
-      <div>
-        <strong>Likes: </strong>25
-        <br>
-        <strong>Dislikes: </strong>25
-        <br>
+      <strong>Creado por: </strong>{{ blog.createdBy }}
+      <br />
+      <strong>Fecha: </strong>{{ blog.createdAt | date: 'dd MMM, yyyy' }}
+      <br />
+      <div *ngIf="username === blog.createdBy">
+        <strong>Likes: </strong>{{ blog.likes }}
+        <br />
+        <strong>Dislikes: </strong>{{ blog.dislikes }}
       </div>
 
-      <!-- Editar/Borrar botones -->
-      <a href=""><button type="button" name="button" class="btn btn-sm btn-info"><span class="glyphicon glyphicon-pencil"></span>&nbsp;&nbsp;Editar</button></a>
-      <a href=""><button type="button" name="button" class="btn btn-sm btn-danger"><span class="glyphicon glyphicon-trash"></span>&nbsp;&nbsp;Borrar</button></a>
 
-      <!-- Boton Likes -->
-      <div class="dropdown">
-        <button type="button" name="button" class="btn btn-sm btn-success">
-          <span class="glyphicon glyphicon-thumbs-up">&nbsp;</span>Likes: 25
-        </button>
+      <div *ngIf="username === blog.createdBy">
+        <br>
+        <!-- Edit Button -->
+        <a [routerLink]="['/edit-blog', blog._id]"><button type="button" name="button" class="btn btn-sm btn-info"><span class="glyphicon glyphicon-pencil">&nbsp;</span>Editar</button></a>
+        <!-- Delete Button -->
+        <a [routerLink]="['/delete-blog', blog._id]"><button type="button" name="button" class="btn btn-sm btn-danger"><span class="glyphicon glyphicon-trash">&nbsp;</span>Borrar</button></a>
+      </div>
 
-        <!-- Lista Likes -->
-        <div class="dropdown-content">
-          <a href="#">gugui3z24</a>
-          <a href="#">jinder</a>
-          <a href="#">patel</a>
+      <div *ngIf="username !== blog.createdBy">
+        <br>
+        <!-- Likes Dropdown  -->
+        <div class="dropdown">
+          <!-- Like Button -->
+          <button type="button" name="button" class="btn btn-sm btn-success"><span class="glyphicon glyphicon-thumbs-up">&nbsp;</span>Likes: 21</button>
+          <!-- Dropdown Menu Items -->
+          <div class="dropdown-content">
+            <a href="#">gugui3z24</a>
+            <a href="#">jinder</a>
+            <a href="#">patel</a>
+          </div>
+        </div>
+
+        <!-- Dislikes Dropdown  -->
+        <div class="dropdown">
+          <!-- Dislike Button -->
+          <button type="button" name="button" class="btn btn-sm btn-warning"><span class="glyphicon glyphicon-thumbs-down">&nbsp;</span>Dislikes: 15</button>
+          <!-- Dropdown Menu Items -->
+          <div class="dropdown-content">
+            <a href="#">gugui3z24</a>
+            <a href="#">jinder</a>
+            <a href="#">patel</a>
+          </div>
         </div>
       </div>
 
-      <!-- Boton Dislike -->
-      <div class="dropdown">
-        <button type="button" name="button" class="btn btn-sm btn-warning">
-          <span class="glyphicon glyphicon-thumbs-down">&nbsp;</span>Dislikes: 25
-        </button>
-
-        <!-- Lista Dislikes -->
-        <div class="dropdown-content">
-          <a href="#">gugui3z24</a>
-          <a href="#">jinder</a>
-          <a href="#">patel</a>
-        </div>
-      </div>
     </div>
-    <!--  Final del Footer -->
+    <!-- Panel Footer End -->
 
+    <!-- Post Comment Box: Start -->
     <ul class="list-group">
       <li class="list-group-item">
-        <button type="button" name="button" class="btn btn-sm btn-primary" (click)="draftComment()">Comentar</button>
-        <br>
-        <!--<form>
+        <button type="button" name="button" class="btn btn-sm btn-primary" (click)="draftComment()"><span class="glyphicon glyphicon-comment">&nbsp;</span>Comentar</button>
+        <br />
+        <!-- <form>
           <textarea name="comment" rows="10" cols="30" class="form-control"></textarea>
-          <button type="button" name="button" class="btn btn-sm btn-primary" (click)="">Enviar Comentario</button>
-          <button type="button" name="button" class="btn btn-sm btn-danger" (click)="">Cancelar</button>
-        </form>-->
+          <button type="button" name="button" class="btn btn-sm btn-info">Submit Post</button>
+          <button type="button" name="button" class="btn btn-sm btn-danger">Cancel</button>
+        </form> -->
       </li>
     </ul>
+    <!-- Post Comment Box: End -->
 
   </div>
+  <!-- Panel Outer Layer -->
 </div>
+<!-- Panel End -->

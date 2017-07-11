@@ -37,7 +37,8 @@ const routes: Routes = [
   },
   {
     path: 'blog',
-    component: BlogComponent // The Default Route
+    component: BlogComponent, // The Default Route
+    canActivate: [AuthGuard]
   },
   { 
     path: '**',
