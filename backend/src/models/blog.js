@@ -128,7 +128,7 @@ const blogSchema = new Schema({
     type: Array
   },
   comments: [{
-    commet: {
+    comment: {
       type: String,
       validate: commentValidators
     },
