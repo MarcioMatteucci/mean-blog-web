@@ -337,5 +337,197 @@ module.exports = (router) => {
     }
   });
 
+  router.put('/likeBlog', (req, res) => {
+    if (!req.body.id) {
+      res.json({
+        success: false,
+        message: 'No se ha proveido el ID del Blog.'
+      });
+    } else {
+      Blog.findOne({
+        _id: req.body.id
+      }, (err, blog) => {
+        if (err) {
+          res.json({
+            success: false,
+            message: 'No es un ID válido de Blog.'
+          });
+        } else {
+          if (!blog) {
+            res.json({
+              success: false,
+              messasge: 'No se ha encontrado el Blog.'
+            });
+          } else {
+            User.findOne({
+              _id: req.decoded.userId
+            }, (err, user) => {
+              if (err) {
+                res.json({
+                  success: false,
+                  message: 'Algo salió mal.'
+                });
+              } else {
+                if (!user) {
+                  res.json({
+                    success: false,
+                    message: 'No se pudo autenticar el Usuario.'
+                  });
+                } else {
+                  if (user.username === blog.createdBy) {
+                    res.json({
+                      success: false,
+                      message: 'No puede reaccionar a su propio post.'
+                    });
+                  } else {
+                    if (blog.likedBy.includes(user.username)) {
+                      res.json({
+                        success: false,
+                        message: 'Ya reaccionó a este post.'
+                      });
+                    } else {
+                      if (blog.dislikedBy.includes(user.username)) {
+                        blog.dislikes--;
+                        const arrayIndex = blog.dislikedBy.indexOf(user.username);
+                        blog.dislikedBy.splice(arrayIndex, 1);
+                        blog.likes++;
+                        blog.likedBy.push(user.username);
+                        blog.save((err) => {
+                          if (err) {
+                            res.json({
+                              success: false,
+                              message: 'Algo salió mal.'
+                            });
+                          } else {
+                            res.json({
+                              success: true,
+                              message: 'Blog liked!'
+                            });
+                          }
+                        });
+                      } else {
+                        blog.likes++;
+                        blog.likedBy.push(user.username);
+                        blog.save((err) => {
+                          if (err) {
+                            res.json({
+                              success: false,
+                              message: 'Algo salió mal.'
+                            });
+                          } else {
+                            res.json({
+                              success: true,
+                              message: 'Blog liked!'
+                            });
+                          }
+                        });
+                      }
+                    }
+                  }
+                }
+              }
+            });
+          }
+        }
+      });
+    }
+  });
+
+  router.put('/dislikeBlog', (req, res) => {
+    if (!req.body.id) {
+      res.json({
+        success: false,
+        message: 'No se ha proveido el ID del Blog.'
+      });
+    } else {
+      Blog.findOne({
+        _id: req.body.id
+      }, (err, blog) => {
+        if (err) {
+          res.json({
+            success: false,
+            message: 'No es un ID válido de Blog.'
+          });
+        } else {
+          if (!blog) {
+            res.json({
+              success: false,
+              messasge: 'No se ha encontrado el Blog.'
+            });
+          } else {
+            User.findOne({
+              _id: req.decoded.userId
+            }, (err, user) => {
+              if (err) {
+                res.json({
+                  success: false,
+                  message: 'Algo salió mal.'
+                });
+              } else {
+                if (!user) {
+                  res.json({
+                    success: false,
+                    message: 'No se pudo autenticar el Usuario.'
+                  });
+                } else {
+                  if (user.username === blog.createdBy) {
+                    res.json({
+                      success: false,
+                      message: 'No puede reaccionar a su propio post.'
+                    });
+                  } else {
+                    if (blog.dislikedBy.includes(user.username)) {
+                      res.json({
+                        success: false,
+                        message: 'Ya reaccionó a este post.'
+                      });
+                    } else {
+                      if (blog.likedBy.includes(user.username)) {
+                        blog.likes--;
+                        const arrayIndex = blog.likedBy.indexOf(user.username);
+                        blog.likedBy.splice(arrayIndex, 1);
+                        blog.dislikes++;
+                        blog.dislikedBy.push(user.username);
+                        blog.save((err) => {
+                          if (err) {
+                            res.json({
+                              success: false,
+                              message: 'Algo salió mal.'
+                            });
+                          } else {
+                            res.json({
+                              success: true,
+                              message: 'Blog disliked!'
+                            });
+                          }
+                        });
+                      } else {
+                        blog.dislikes++;
+                        blog.dislikedBy.push(user.username);
+                        blog.save((err) => {
+                          if (err) {
+                            res.json({
+                              success: false,
+                              message: 'Algo salió mal.'
+                            });
+                          } else {
+                            res.json({
+                              success: true,
+                              message: 'Blog disliked!'
+                            });
+                          }
+                        });
+                      }
+                    }
+                  }
+                }
+              }
+            });
+          }
+        }
+      });
+    }
+  });
+
   return router;
 };

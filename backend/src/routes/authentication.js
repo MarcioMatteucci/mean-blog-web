@@ -289,5 +289,23 @@ module.exports = (router) => {
     });
   });
 
+  router.get('/publicProfile/:username', (req, res) =>{
+    if (!req.params.username){
+      res.json({ success: false, message: 'No se ha proveido Nombre de Usuario.' });
+    } else {
+      User.findOne({ username: req.params.username }).select('username email').exec((err, user) => {
+        if (err) {
+          res.json({ success: false, message: 'Algo salió mal.' });
+        } else {
+          if (!user) {
+            res.json({ success: false, message: 'No se encontro Nombre de Usuario.' });
+          } else {
+            res.json({ success: true, user: user });
+          }
+        }
+      });
+    }
+  });
+
   return router; // Return router object to main app.js
 }
