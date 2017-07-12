@@ -125,7 +125,7 @@ export class BlogComponent implements OnInit {
 
   // Function to go back to previous page
   goBack() {
-    window.location.reload(); // Clear all variable states
+    this.newPost = false; // Clear all variable states
   }
 
   getAllBlogs() {
