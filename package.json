@@ -4,8 +4,8 @@
   "description": "Backend con Node y Express de una Web App Blog",
   "main": "src/app.js",
   "scripts": {
-    "start": "nodemon src/app.js",
-    "build": "cd ../frontend && ng build --prod && cd ../backend/src && node app.js"
+    "start": "nodemon app.js",
+    "build": "cd ../frontend && ng build --prod"
   },
   "repository": {
     "type": "git",
